@@ -3,7 +3,7 @@
     <aside class="admin-sidebar">
       <div class="admin-sidebar__logo">
         <NuxtLink to="/admin">
-          <img src="/images/logo.svg" alt="Центр молодёжных и гражданских инициатив" class="logo-image" />
+          <img src="/images/logo.jpg" alt="Центр молодёжных и гражданских инициатив" class="logo-image" />
         </NuxtLink>
       </div>
       <nav class="admin-nav">
@@ -116,7 +116,7 @@ const handleLogout = () => {
     
     .logo-image {
       width: 100%;
-      max-width: 150px;
+      max-width: 55px;
       filter: brightness(0) invert(1);
     }
   }

@@ -49,7 +49,7 @@
     <div v-else class="admin-news__list">
       <div v-for="item in filteredNews" :key="item.id" class="news-item">
         <div class="news-item__image">
-          <img :src="item.image || '/images/placeholder.jpg'" :alt="item.title" />
+          <img :src="item.image || '/images/newsCardBanner.jpg'" :alt="item.title" />
         </div>
         
         <div class="news-item__content">

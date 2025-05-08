@@ -6,7 +6,7 @@
         <div class="header__content">
           <div class="header__logo">
             <NuxtLink to="/">
-              <img src="/images/logo.svg" alt="Центр молодёжных и гражданских инициатив" class="logo-image" />
+              <img src="/images/logo.jpg" alt="Центр молодёжных и гражданских инициатив" class="logo-image" />
             </NuxtLink>
           </div>
           <nav class="header__nav">
@@ -23,7 +23,7 @@
                 <NuxtLink to="/" class="nav-link" @click="isMenuOpen = false">Главная</NuxtLink>
               </li>
               <li class="nav-item">
-                <NuxtLink to="/about" class="nav-link" @click="isMenuOpen = false">О нас</NuxtLink>
+                <NuxtLink to="/news" class="nav-link" @click="isMenuOpen = false">Новости</NuxtLink>
               </li>
               <li class="nav-item">
                 <NuxtLink to="/uray-youth" class="nav-link" @click="isMenuOpen = false">Урай Молодёжный</NuxtLink>
@@ -35,7 +35,7 @@
                 <NuxtLink to="/dobro-center" class="nav-link" @click="isMenuOpen = false">Добро.Центр</NuxtLink>
               </li>
               <li class="nav-item">
-                <NuxtLink to="/news" class="nav-link" @click="isMenuOpen = false">Новости</NuxtLink>
+                <NuxtLink to="/about" class="nav-link" @click="isMenuOpen = false">О нас</NuxtLink>
               </li>
               <li class="nav-item">
                 <NuxtLink to="/contacts" class="nav-link" @click="isMenuOpen = false">Контакты</NuxtLink>
@@ -57,7 +57,7 @@
       <div class="container">
         <div class="footer__content">
           <div class="footer__logo">
-            <img src="/images/logo.svg" alt="Центр молодёжных и гражданских инициатив" class="logo-image" />
+            <img src="/images/logo.jpg" alt="Центр молодёжных и гражданских инициатив" class="logo-image" />
           </div>
           <div class="footer__info">
             <div class="footer__contacts">
@@ -146,6 +146,7 @@ const isMenuOpen = ref(false);
     max-width: 180px;
     
     .logo-image {
+      max-width: 55px;
       width: 100%;
       height: auto;
     }
@@ -301,6 +302,9 @@ const isMenuOpen = ref(false);
     margin-bottom: $spacing-md;
     
     .logo-image {
+      max-width: 55px;
+      width: 100%;
+      height: auto;
       filter: brightness(0) invert(1);
     }
   }

@@ -2,7 +2,7 @@
   <div class="admin-login-page">
     <div class="admin-login-container">
       <div class="admin-login-logo">
-        <img src="/images/logo.svg" alt="Центр молодёжных и гражданских инициатив" />
+        <img src="/images/logo.jpg" alt="Центр молодёжных и гражданских инициатив" />
       </div>
       
       <h1 class="admin-login-title">Вход в админ-панель</h1>

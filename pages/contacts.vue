@@ -4,7 +4,7 @@
     <Banner 
       title="Контакты" 
       subtitle="Свяжитесь с нами любым удобным способом"
-      backgroundImage="/images/contacts-banner.jpg"
+      backgroundImage="/images/newsCardBanner.jpg"
     />
     
     <!-- Main Content -->

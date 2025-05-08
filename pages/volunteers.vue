@@ -4,7 +4,7 @@
     <Banner 
       title="Волонтёры Победы. Урай ХМАО-Югры" 
       subtitle="Патриотические инициативы, помощь ветеранам, сохранение исторической памяти"
-      backgroundImage="/images/volunteers-banner.jpg"
+      backgroundImage="/images/volonter.jpg"
     />
     
     <!-- Main Content -->
@@ -141,22 +141,22 @@ const projects = ref([
   {
     title: 'Георгиевская ленточка',
     description: 'Ежегодная акция по раздаче георгиевских ленточек жителям города в преддверии Дня Победы. Волонтёры рассказывают о символике ленты и её исторической значимости.',
-    image: '/images/projects/georgievskaya.jpg'
+    image: '/images/newsCardBanner.jpg'
   },
   {
     title: 'Письмо Победы',
     description: 'Акция, в рамках которой школьники и студенты пишут письма ветеранам Великой Отечественной войны со словами благодарности за их подвиг.',
-    image: '/images/projects/letter.jpg'
+    image: '/images/uray-youth.jpg'
   },
   {
     title: 'Уроки мужества',
     description: 'Интерактивные занятия в школах города, посвящённые ключевым событиям Великой Отечественной войны и подвигам героев.',
-    image: '/images/projects/lesson.jpg'
+    image: '/images/volonter.jpg'
   },
   {
     title: 'Благоустройство памятных мест',
     description: 'Регулярные акции по уборке и благоустройству памятников, мемориалов и воинских захоронений на территории города.',
-    image: '/images/projects/memorial.jpg'
+    image: '/images/dobro-center.jpg'
   }
 ]);
 
@@ -183,27 +183,27 @@ const joinSteps = ref([
 // Gallery data
 const gallery = ref([
   {
-    src: '/images/gallery/volunteers-1.jpg',
+    src: '/images/newsCardBanner.jpg',
     alt: 'Акция "Георгиевская ленточка"'
   },
   {
-    src: '/images/gallery/volunteers-2.jpg',
+    src: '/images/logo.jpg',
     alt: 'Помощь ветеранам'
   },
   {
-    src: '/images/gallery/volunteers-3.jpg',
+    src: '/images/uray-youth.jpg',
     alt: 'Урок мужества в школе'
   },
   {
-    src: '/images/gallery/volunteers-4.jpg',
+    src: '/images/volonter.jpg',
     alt: 'Благоустройство памятника'
   },
   {
-    src: '/images/gallery/volunteers-5.jpg',
+    src: '/images/dobro-center.jpg',
     alt: 'Парад Победы'
   },
   {
-    src: '/images/gallery/volunteers-6.jpg',
+    src: '/images/newsCardBanner.jpg',
     alt: 'Волонтёры на мероприятии'
   }
 ]);

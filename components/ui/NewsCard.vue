@@ -1,7 +1,7 @@
 <template>
   <div class="news-card">
     <div class="news-card__image">
-      <img :src="image" :alt="title" />
+      <LazyImage :src="image" :alt="title" />
     </div>
     <div class="news-card__content">
       <div class="news-card__meta">
@@ -18,6 +18,8 @@
 </template>
 
 <script setup>
+import LazyImage from './LazyImage.vue';
+
 defineProps({
   title: {
     type: String,

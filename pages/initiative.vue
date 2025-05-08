@@ -4,7 +4,7 @@
     <Banner 
       title="Подать инициативу" 
       subtitle="Поделитесь своими идеями и предложениями"
-      backgroundImage="/images/initiative-banner.jpg"
+      backgroundImage="/images/logo.jpg"
     />
     
     <!-- Main Content -->

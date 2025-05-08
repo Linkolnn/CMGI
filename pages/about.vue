@@ -4,7 +4,7 @@
     <Banner 
       title="О нас" 
       subtitle="Центр молодёжных и гражданских инициатив города Урай"
-      backgroundImage="/images/about-banner.jpg"
+      backgroundImage="/images/newsCardBanner.jpg"
     />
     
     <!-- Main Content -->
@@ -116,22 +116,22 @@ const team = ref([
   {
     name: 'Иванов Иван Иванович',
     position: 'Директор',
-    photo: '/images/team/director.jpg'
+    photo: '/images/logo.jpg'
   },
   {
     name: 'Петрова Анна Сергеевна',
     position: 'Руководитель Ресурсного центра поддержки НКО',
-    photo: '/images/team/nko.jpg'
+    photo: '/images/uray-youth.jpg'
   },
   {
     name: 'Сидоров Алексей Петрович',
     position: 'Руководитель Ресурсного центра поддержки волонтёрства',
-    photo: '/images/team/volunteer.jpg'
+    photo: '/images/volonter.jpg'
   },
   {
     name: 'Козлова Мария Александровна',
     position: 'Специалист по работе с молодёжью',
-    photo: '/images/team/youth.jpg'
+    photo: '/images/dobro-center.jpg'
   }
 ]);
 
@@ -158,27 +158,27 @@ const documents = ref([
 // Gallery data
 const gallery = ref([
   {
-    src: '/images/gallery/gallery-1.jpg',
+    src: '/images/newsCardBanner.jpg',
     alt: 'Молодёжный форум'
   },
   {
-    src: '/images/gallery/gallery-2.jpg',
+    src: '/images/logo.jpg',
     alt: 'Волонтёрская акция'
   },
   {
-    src: '/images/gallery/gallery-3.jpg',
+    src: '/images/uray-youth.jpg',
     alt: 'Мастер-класс для молодёжи'
   },
   {
-    src: '/images/gallery/gallery-4.jpg',
+    src: '/images/volonter.jpg',
     alt: 'Экологическая акция'
   },
   {
-    src: '/images/gallery/gallery-5.jpg',
+    src: '/images/dobro-center.jpg',
     alt: 'Встреча с ветеранами'
   },
   {
-    src: '/images/gallery/gallery-6.jpg',
+    src: '/images/newsCardBanner.jpg',
     alt: 'Городской праздник'
   }
 ]);

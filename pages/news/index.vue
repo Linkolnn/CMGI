@@ -4,7 +4,7 @@
     <Banner 
       title="Новости и события" 
       subtitle="Будьте в курсе последних событий и мероприятий"
-      backgroundImage="/images/news-banner.jpg"
+      backgroundImage="/images/logo.jpg"
     />
     
     <!-- Main Content -->

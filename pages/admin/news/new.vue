@@ -356,7 +356,7 @@ const submitForm = async () => {
       date: form.value.date,
       excerpt: form.value.excerpt,
       content: form.value.content,
-      image: form.value.image || '/images/news-placeholder.jpg'
+      image: form.value.image || '/images/newsCardBanner.jpg'
     };
     
     await newsStore.addNews(newNews);

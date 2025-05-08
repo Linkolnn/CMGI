@@ -75,7 +75,7 @@ import DirectionsSection from '~/components/sections/DirectionsSection.vue';
 import NewsSection from '~/components/sections/NewsSection.vue';
 
 const newsStore = useNewsStore();
-const heroBackground = ref('/images/hero-bg.jpg');
+const heroBackground = ref('/images/newsCardBanner.jpg');
 
 // Directions data
 const directions = ref([
@@ -88,7 +88,7 @@ const directions = ref([
   {
     title: 'Волонтёры Победы',
     description: 'Патриотические инициативы, помощь ветеранам, сохранение исторической памяти и проведение памятных мероприятий.',
-    image: '/images/volunteers.jpg',
+    image: '/images/volonter.jpg',
     link: '/volunteers'
   },
   {

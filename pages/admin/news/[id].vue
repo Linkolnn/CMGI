@@ -184,7 +184,7 @@
             <h3 class="sidebar-card__title">Предпросмотр</h3>
             <div class="news-preview">
               <div class="news-preview__image">
-                <img :src="form.image || '/images/news-placeholder.jpg'" alt="Preview" />
+                <img :src="form.image || '/images/newsCardBanner.jpg'" alt="Preview" />
               </div>
               <h4 class="news-preview__title">{{ form.title || 'Заголовок новости' }}</h4>
               <p class="news-preview__excerpt">{{ form.excerpt || 'Краткое описание новости' }}</p>
@@ -318,7 +318,7 @@ const fetchNews = async () => {
     };
     
     // Set image preview if image exists
-    if (newsData.image && newsData.image !== '/images/news-placeholder.jpg') {
+    if (newsData.image && newsData.image !== '/images/newsCardBanner.jpg') {
       imagePreview.value = newsData.image;
     }
   } catch (err) {
@@ -392,7 +392,7 @@ const handleImageUpload = (event) => {
 const removeImage = () => {
   selectedImage.value = null;
   imagePreview.value = null;
-  form.value.image = '/images/news-placeholder.jpg';
+  form.value.image = '/images/newsCardBanner.jpg';
   
   // Reset file input
   const fileInput = document.querySelector('.form__file-input');
