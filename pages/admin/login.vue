@@ -61,8 +61,9 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { checkAdminCredentials, authenticateAdmin, isAdminAuthenticated } from '~/services/auth';
 
 const router = useRouter();
 
@@ -79,6 +80,13 @@ const errors = reactive({
 
 const isLoading = ref(false);
 const loginError = ref('');
+
+// Проверяем, авторизован ли пользователь при загрузке страницы
+onMounted(() => {
+  if (isAdminAuthenticated()) {
+    router.push('/admin');
+  }
+});
 
 const validateForm = () => {
   let isValid = true;
@@ -109,16 +117,15 @@ const handleLogin = async () => {
   loginError.value = '';
   
   try {
-    // In a real application, this would be an API call to authenticate the user
-    // For demo purposes, we'll just simulate a delay and check hardcoded credentials
+    // Имитация задержки сервера
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Demo credentials check (in a real app, this would be done on the server)
-    if (form.username === 'admin' && form.password === 'admin') {
-      // Set a flag in localStorage to simulate authentication
-      localStorage.setItem('cmgi_admin_auth', 'true');
+    // Проверка учетных данных администратора
+    if (checkAdminCredentials(form.username, form.password)) {
+      // Авторизуем администратора
+      authenticateAdmin(form.remember);
       
-      // Redirect to admin dashboard
+      // Перенаправляем на панель управления
       router.push('/admin');
     } else {
       loginError.value = 'Неверное имя пользователя или пароль';
@@ -129,8 +136,7 @@ const handleLogin = async () => {
   } finally {
     isLoading.value = false;
   }
-};
-</script>
+};</script>
 
 <style lang="scss">
 .admin-login-page {

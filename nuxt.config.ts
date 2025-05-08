@@ -6,6 +6,10 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
   ],
+  // Глобальный middleware для проверки авторизации
+  router: {
+    middleware: ['auth']
+  },
   nitro: {
     compressPublicAssets: true,
     minify: true

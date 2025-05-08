@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-layout">
+  <div v-if="isAuthenticated" class="admin-layout">
     <aside class="admin-sidebar">
       <div class="admin-sidebar__logo">
         <NuxtLink to="/admin">
@@ -68,11 +68,32 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onBeforeMount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { isAdminAuthenticated, logoutAdmin } from '~/services/auth';
 
 const route = useRoute();
 const router = useRouter();
+const isAuthenticated = ref(false);
+
+// Проверяем авторизацию перед монтированием компонента
+onBeforeMount(() => {
+  checkAuth();
+});
+
+// Проверяем авторизацию при монтировании компонента (для клиентской стороны)
+onMounted(() => {
+  checkAuth();
+});
+
+// Функция проверки авторизации
+const checkAuth = () => {
+  if (!isAdminAuthenticated()) {
+    router.push('/admin/login');
+    return;
+  }
+  isAuthenticated.value = true;
+};
 
 // Compute page title based on current route
 const pageTitle = computed(() => {
@@ -89,7 +110,7 @@ const pageTitle = computed(() => {
 
 // Handle logout
 const handleLogout = () => {
-  // Here would be authentication logic
+  logoutAdmin();
   router.push('/admin/login');
 };
 </script>
