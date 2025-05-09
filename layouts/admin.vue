@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-layout">
+  <div class="admin-layout" v-if="isAuthenticated">
     <aside class="admin-sidebar">
       <div class="admin-sidebar__logo">
         <NuxtLink to="/admin">
