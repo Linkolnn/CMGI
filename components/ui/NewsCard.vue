@@ -1,12 +1,12 @@
 <template>
-  <div class="news-card">
+  <NuxtLink :to="link" class="news-card">
     <div class="news-card__image">
       <LazyImage :src="image" :alt="title" />
     </div>
     <div class="news-card__content">
       <div class="news-card__meta">
         <span class="news-card__date">{{ formatDate(date) }}</span>
-        <span v-if="category" class="news-card__category">{{ category }}</span>
+        <span v-if="category" class="news-card__category">{{ getCategoryLabel(category) }}</span>
       </div>
       <h3 class="news-card__title">{{ title }}</h3>
       <p class="news-card__excerpt">{{ excerpt }}</p>
@@ -14,11 +14,12 @@
         Подробнее
       </NuxtLink>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup>
 import LazyImage from './LazyImage.vue';
+import { useNewsStore } from '~/stores/news';
 
 defineProps({
   title: {
@@ -47,6 +48,9 @@ defineProps({
   }
 });
 
+// Инициализация хранилища новостей
+const newsStore = useNewsStore();
+
 // Format date to Russian format
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -55,6 +59,11 @@ const formatDate = (dateString) => {
     month: 'long',
     year: 'numeric'
   }).format(date);
+};
+
+// Получение названия категории на русском языке
+const getCategoryLabel = (category) => {
+  return newsStore.getCategoryLabel(category);
 };
 </script>
 

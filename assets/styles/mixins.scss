@@ -75,7 +75,7 @@
 // Button mixins
 @mixin button-primary {
   background-color: $primary-green;
-  color: $black;
+  color: $white;
   padding: $spacing-sm $spacing-lg;
   border-radius: $border-radius-md;
   font-weight: 600;
@@ -84,6 +84,7 @@
   transition: $transition-base;
   
   &:hover {
+    color: $white;
     background-color: darken($primary-green, 10%);
   }
 }
@@ -99,7 +100,24 @@
   transition: $transition-base;
   
   &:hover {
+    color: $white;
     background-color: darken($primary-purple, 10%);
+  }
+}
+
+@mixin button-danger {
+  background-color: $error-red;
+  color: $white;
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $border-radius-md;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: $transition-base;
+  
+  &:hover {
+    color: $white;
+    background-color: darken($error-red, 10%);
   }
 }
 

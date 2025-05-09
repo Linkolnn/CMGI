@@ -48,7 +48,7 @@
                   <h3 class="project-card__title">{{ project.title }}</h3>
                   <p class="project-card__description">{{ project.description }}</p>
                   <div class="project-card__status">
-                    <span class="project-card__status-icon">⭐</span>
+                    <span class="project-card__status-icon"><i class="fas fa-star"></i></span>
                     <span class="project-card__status-text">{{ project.status }}</span>
                   </div>
                 </div>
@@ -58,7 +58,7 @@
             <h2 class="dobro-content__title">Как участвовать</h2>
             <div class="participation-options">
               <div v-for="(option, index) in participationOptions" :key="index" class="participation-option">
-                <div class="participation-option__icon">{{ option.icon }}</div>
+                <div class="participation-option__icon"><i :class="option.icon"></i></div>
                 <div class="participation-option__content">
                   <h3 class="participation-option__title">{{ option.title }}</h3>
                   <p class="participation-option__description">{{ option.description }}</p>
@@ -87,12 +87,12 @@
           
           <div class="dobro-content__sidebar">
             <div class="sidebar-block">
-              <h3 class="sidebar-block__title">Подать инициативу</h3>
+              <h3 class="sidebar-block__title">Предложить инициативу</h3>
               <p class="sidebar-block__text">
                 У вас есть идея волонтёрского проекта? Поделитесь ею с нами, и мы поможем воплотить её в жизнь!
               </p>
               <NuxtLink to="/initiative" class="btn btn--primary sidebar-block__button">
-                Подать инициативу
+                Предложить инициативу
               </NuxtLink>
             </div>
             
@@ -117,7 +117,7 @@
                   <div class="sidebar-event__content">
                     <h4 class="sidebar-event__title">{{ event.title }}</h4>
                     <p class="sidebar-event__location">
-                      <span class="sidebar-event__icon">📍</span>
+                      <span class="sidebar-event__icon"><i class="fas fa-map-marker-alt"></i></span>
                       {{ event.location }}
                     </p>
                   </div>
@@ -129,21 +129,21 @@
               <h3 class="sidebar-block__title">Контакты</h3>
               <ul class="sidebar-block__list">
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">👤</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-map-marker-alt"></i></span>
                   <span class="sidebar-block__text">
-                    <strong>Координатор:</strong> Сидоров Алексей Петрович
+                    <strong>Координатор:</strong> Петрова Анна Сергеевна
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">📞</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-phone"></i></span>
                   <span class="sidebar-block__text">
-                    <strong>Телефон:</strong> +7 (34676) 2-23-47
+                    <strong>Телефон:</strong> +7 (34676) 2-23-46
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✉️</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-envelope"></i></span>
                   <span class="sidebar-block__text">
-                    <strong>Email:</strong> dobro@cmgi-uray.ru
+                    <strong>Email:</strong> volunteers@cmgi-uray.ru
                   </span>
                 </li>
               </ul>
@@ -152,40 +152,55 @@
         </div>
       </div>
     </section>
+    
+    <!-- Фотогалерея -->
+    <GallerySection 
+      title="Фотогалерея" 
+      description="Фотографии с мероприятий и проектов направления 'Добро.Центр'" 
+      category="dobro-center" 
+      :limit="6" 
+    />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Banner from '~/components/ui/Banner.vue';
+import GallerySection from '~/components/sections/GallerySection.vue';
+import { useProjectsStore } from '~/stores/projects';
+import { useEventsStore } from '~/stores/events';
+import { useGalleryStore } from '~/stores/gallery';
 
-// Projects data
-const projects = ref([
-  {
-    title: 'ЭкоУрай',
-    description: 'Проект направлен на улучшение экологической ситуации в городе и формирование экологической культуры среди жителей. Регулярные акции по очистке территорий, высадке деревьев и экологическому просвещению.',
-    image: '/images/newsCardBanner.jpg',
-    status: 'Активный проект'
-  },
-  {
-    title: 'Помощь пожилым',
-    description: 'Волонтёры оказывают помощь пожилым людям и ветеранам в бытовых вопросах: доставка продуктов и лекарств, уборка, мелкий ремонт, а также организуют досуговые мероприятия.',
-    image: '/images/uray-youth.jpg',
-    status: 'Активный проект'
-  },
-  {
-    title: 'Уроки доброты',
-    description: 'Образовательный проект для школьников, направленный на формирование культуры добровольчества и развитие эмпатии. Волонтёры проводят интерактивные занятия в школах города.',
-    image: '/images/volonter.jpg',
-    status: 'Активный проект'
-  },
-  {
-    title: 'Больничные клоуны',
-    description: 'Волонтёры в образах клоунов посещают детские отделения больниц, чтобы поднять настроение маленьким пациентам и помочь им легче переносить лечение.',
-    image: '/images/dobro-center.jpg',
-    status: 'Набор волонтёров'
-  }
-]);
+// Инициализация хранилищ
+const projectsStore = useProjectsStore();
+const eventsStore = useEventsStore();
+
+onMounted(() => {
+  // Загрузка данных из localStorage
+  projectsStore.initProjects();
+  eventsStore.initEvents();
+});
+
+// Получение проектов категории 'dobro-center'
+const projects = computed(() => {
+  return projectsStore.getProjectsByCategory('dobro-center');
+});
+
+// Получение предстоящих событий категории 'dobro-center'
+const events = computed(() => {
+  const dobroCenterEvents = eventsStore.getEventsByCategory('dobro-center');
+  return dobroCenterEvents
+    .filter(event => new Date(event.date) >= new Date())
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .map(event => {
+      const eventDate = new Date(event.date);
+      return {
+        ...event,
+        formattedDate: eventDate.toLocaleDateString('ru-RU'),
+        time: `${eventDate.getHours().toString().padStart(2, '0')}:${eventDate.getMinutes().toString().padStart(2, '0')}`
+      };
+    });
+});
 
 // Participation options data
 const participationOptions = ref([
@@ -217,34 +232,17 @@ const testimonials = ref([
     text: 'Я стала волонтёром Добро.Центра год назад и ни разу не пожалела об этом. Здесь я нашла единомышленников, научилась многому новому и поняла, что даже небольшая помощь может изменить чью-то жизнь к лучшему.',
     name: 'Мария Иванова',
     role: 'Волонтёр проекта "Помощь пожилым"',
-    photo: '/images/logo.jpg'
+    photo: '/images/avatar.svg'
   },
   {
     text: 'Добро.Центр помог мне реализовать мою идею экологического проекта. Команда центра оказала поддержку на всех этапах: от разработки концепции до привлечения партнёров. Теперь "ЭкоУрай" — один из самых успешных волонтёрских проектов в городе.',
     name: 'Алексей Смирнов',
     role: 'Руководитель проекта "ЭкоУрай"',
-    photo: '/images/newsCardBanner.jpg'
+    photo: '/images/avatar.svg'
   }
 ]);
 
-// Events data
-const events = ref([
-  {
-    title: 'Экологическая акция "Чистый берег"',
-    date: '2025-05-18',
-    location: 'Городской пляж'
-  },
-  {
-    title: 'Обучение новых волонтёров',
-    date: '2025-05-22',
-    location: 'Добро.Центр, ул. Ленина, 88'
-  },
-  {
-    title: 'Благотворительный концерт',
-    date: '2025-05-30',
-    location: 'ДК "Нефтяник"'
-  }
-]);
+// Примечание: переменная events уже определена выше как вычисляемое свойство
 
 // Format date functions
 const formatDay = (dateString) => {
@@ -467,11 +465,13 @@ const formatMonth = (dateString) => {
       border-radius: 50%;
       overflow: hidden;
       margin-right: $spacing-md;
+      background: $primary-green;
       border: 2px solid $primary-green;
       
       img {
         width: 100%;
         height: 100%;
+        transform: translate(-1%, -2%);
         object-fit: cover;
       }
     }

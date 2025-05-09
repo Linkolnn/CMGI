@@ -64,7 +64,7 @@
               <ul class="about-sidebar-block__list">
                 <li v-for="(doc, index) in documents" :key="index" class="about-sidebar-block__item">
                   <a :href="doc.link" target="_blank" class="about-sidebar-block__link">
-                    <span class="about-sidebar-block__icon">📄</span>
+                    <span class="about-sidebar-block__icon"><i class="fas fa-file-alt"></i></span>
                     {{ doc.title }}
                   </a>
                 </li>
@@ -75,15 +75,15 @@
               <h3 class="about-sidebar-block__title">Контакты</h3>
               <ul class="about-sidebar-block__list">
                 <li class="about-sidebar-block__item">
-                  <span class="about-sidebar-block__icon">📍</span>
+                  <span class="about-sidebar-block__icon"><i class="fas fa-map-marker-alt"></i></span>
                   г. Урай, ул. Ленина, 88
                 </li>
                 <li class="about-sidebar-block__item">
-                  <span class="about-sidebar-block__icon">📞</span>
+                  <span class="about-sidebar-block__icon"><i class="fas fa-phone"></i></span>
                   +7 (34676) 2-23-45
                 </li>
                 <li class="about-sidebar-block__item">
-                  <span class="about-sidebar-block__icon">✉️</span>
+                  <span class="about-sidebar-block__icon"><i class="fas fa-envelope"></i></span>
                   info@cmgi-uray.ru
                 </li>
               </ul>
@@ -94,21 +94,17 @@
     </section>
     
     <!-- Photo Gallery -->
-    <section class="section gallery-section">
-      <div class="container">
-        <h2 class="section__title">Фотогалерея</h2>
-        <div class="gallery-grid">
-          <div v-for="(photo, index) in gallery" :key="index" class="gallery-item">
-            <img :src="photo.src" :alt="photo.alt" class="gallery-item__image" />
-          </div>
-        </div>
-      </div>
-    </section>
+    <GallerySection 
+      title="Фотогалерея" 
+      description="Фотографии с мероприятий и акций Центра молодёжных и гражданских инициатив"
+      :limit="6"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import GallerySection from '~/components/sections/GallerySection.vue';
 import Banner from '~/components/ui/Banner.vue';
 
 // Team members data
@@ -116,22 +112,22 @@ const team = ref([
   {
     name: 'Иванов Иван Иванович',
     position: 'Директор',
-    photo: '/images/logo.jpg'
+    photo: '/images/avatar.svg'
   },
   {
     name: 'Петрова Анна Сергеевна',
     position: 'Руководитель Ресурсного центра поддержки НКО',
-    photo: '/images/uray-youth.jpg'
+    photo: '/images/avatar.svg'
   },
   {
     name: 'Сидоров Алексей Петрович',
     position: 'Руководитель Ресурсного центра поддержки волонтёрства',
-    photo: '/images/volonter.jpg'
+    photo: '/images/avatar.svg'
   },
   {
     name: 'Козлова Мария Александровна',
     position: 'Специалист по работе с молодёжью',
-    photo: '/images/dobro-center.jpg'
+    photo: '/images/avatar.svg'
   }
 ]);
 
@@ -155,33 +151,7 @@ const documents = ref([
   }
 ]);
 
-// Gallery data
-const gallery = ref([
-  {
-    src: '/images/newsCardBanner.jpg',
-    alt: 'Молодёжный форум'
-  },
-  {
-    src: '/images/logo.jpg',
-    alt: 'Волонтёрская акция'
-  },
-  {
-    src: '/images/uray-youth.jpg',
-    alt: 'Мастер-класс для молодёжи'
-  },
-  {
-    src: '/images/volonter.jpg',
-    alt: 'Экологическая акция'
-  },
-  {
-    src: '/images/dobro-center.jpg',
-    alt: 'Встреча с ветеранами'
-  },
-  {
-    src: '/images/newsCardBanner.jpg',
-    alt: 'Городской праздник'
-  }
-]);
+
 </script>
 
 <style lang="scss">
@@ -258,11 +228,13 @@ const gallery = ref([
       border-radius: 50%;
       overflow: hidden;
       margin: 0 auto $spacing-md;
+      background: $primary-green;
       border: 3px solid $primary-green;
       
       img {
         width: 100%;
         height: 100%;
+        transform: translate(-1%, -2%);
         object-fit: cover;
       }
     }

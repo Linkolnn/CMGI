@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAuthenticated" class="admin-layout">
+  <div class="admin-layout">
     <aside class="admin-sidebar">
       <div class="admin-sidebar__logo">
         <NuxtLink to="/admin">
@@ -10,39 +10,49 @@
         <ul class="admin-nav__list">
           <li class="admin-nav__item">
             <NuxtLink to="/admin" class="admin-nav__link">
-              <span class="admin-nav__icon">📊</span>
+              <span class="admin-nav__icon"><i class="fas fa-tachometer-alt"></i></span>
               <span class="admin-nav__text">Панель управления</span>
             </NuxtLink>
           </li>
           <li class="admin-nav__item">
             <NuxtLink to="/admin/initiatives" class="admin-nav__link">
-              <span class="admin-nav__icon">📝</span>
+              <span class="admin-nav__icon"><i class="fas fa-clipboard-list"></i></span>
               <span class="admin-nav__text">Заявки</span>
             </NuxtLink>
           </li>
           <li class="admin-nav__item">
             <NuxtLink to="/admin/news" class="admin-nav__link">
-              <span class="admin-nav__icon">📰</span>
+              <span class="admin-nav__icon"><i class="fas fa-newspaper"></i></span>
               <span class="admin-nav__text">Новости</span>
             </NuxtLink>
           </li>
+          
+          <li class="admin-nav__item">
+            <NuxtLink to="/admin/projects" class="admin-nav__link">
+              <span class="admin-nav__icon"><i class="fas fa-project-diagram"></i></span>
+              <span class="admin-nav__text">Проекты</span>
+            </NuxtLink>
+          </li>
+          
           <li class="admin-nav__item">
             <NuxtLink to="/admin/events" class="admin-nav__link">
-              <span class="admin-nav__icon">🗓️</span>
+              <span class="admin-nav__icon"><i class="fas fa-calendar-alt"></i></span>
               <span class="admin-nav__text">События</span>
             </NuxtLink>
           </li>
-          <li class="admin-nav__item">
-            <NuxtLink to="/admin/users" class="admin-nav__link">
-              <span class="admin-nav__icon">👥</span>
-              <span class="admin-nav__text">Пользователи</span>
-            </NuxtLink>
+          
+          <!-- Кнопка выхода в мобильной версии будет в списке навигации -->
+          <li class="admin-nav__item admin-nav__item--logout">
+            <button class="admin-nav__link admin-logout-btn" @click="handleLogout">
+              <span class="admin-nav__icon"><i class="fas fa-sign-out-alt"></i></span>
+              <span class="admin-nav__text">Выйти</span>
+            </button>
           </li>
         </ul>
       </nav>
       <div class="admin-sidebar__footer">
         <button class="admin-logout-btn" @click="handleLogout">
-          <span class="admin-nav__icon">🚪</span>
+          <span class="admin-nav__icon"><i class="fas fa-sign-out-alt"></i></span>
           <span class="admin-nav__text">Выйти</span>
         </button>
       </div>
@@ -138,7 +148,6 @@ const handleLogout = () => {
     .logo-image {
       width: 100%;
       max-width: 55px;
-      filter: brightness(0) invert(1);
     }
   }
   
@@ -198,6 +207,20 @@ const handleLogout = () => {
   &:hover {
     color: $white;
   }
+  
+  // Стили для кнопки выхода в навигации на мобильных устройствах
+  .admin-nav__item--logout & {
+    display: none;
+    width: auto;
+    padding: $spacing-sm;
+    justify-content: center;
+    border-bottom: 3px solid transparent;
+    
+    &:hover, &:active {
+      background-color: rgba($white, 0.1);
+      border-bottom-color: $primary-green;
+    }
+  }
 }
 
 // Content area
@@ -235,6 +258,11 @@ const handleLogout = () => {
 // Main content
 .admin-main {
   padding: $spacing-lg;
+  overflow-x: hidden; // Предотвращает горизонтальную прокрутку всей страницы
+  
+  @include mobile {
+    padding: $spacing-md;
+  }
 }
 
 // Responsive adjustments
@@ -268,6 +296,10 @@ const handleLogout = () => {
       justify-content: center;
       padding: $spacing-md;
     }
+    
+    &__item--logout {
+      display: none; // Скрываем кнопку выхода в навигации на планшетах
+    }
   }
   
   .admin-logout-btn {
@@ -296,10 +328,11 @@ const handleLogout = () => {
     &__logo {
       padding: $spacing-sm;
     }
-    
-    &__footer {
+
+    &__footer{
       display: none;
     }
+    
   }
   
   .admin-nav {
@@ -307,13 +340,27 @@ const handleLogout = () => {
     
     &__list {
       flex-direction: row;
+      justify-content: space-around;
       overflow-x: auto;
       padding-bottom: $spacing-sm;
+      gap: 10px;
     }
     
     &__item {
       margin-bottom: 0;
-      margin-right: $spacing-sm;
+      width: 100%;
+      
+      &--logout {
+        display: block;
+        .admin-logout-btn {
+          display: block;
+          height: 100%;
+          width: 100%;
+          .admin-nav__item--logout & {
+            display: block;
+          }          
+        } // Показываем кнопку выхода в мобильной версии
+      }
     }
     
     &__link {

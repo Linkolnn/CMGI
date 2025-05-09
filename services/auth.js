@@ -1,4 +1,5 @@
 // Сервис для аутентификации администратора
+import { useRuntimeConfig } from 'nuxt/app';
 
 /**
  * Проверяет учетные данные администратора
@@ -7,8 +8,9 @@
  * @returns {boolean} - Результат проверки
  */
 export const checkAdminCredentials = (username, password) => {
-  const adminUsername = process.env.NUXT_PUBLIC_ADMIN_USERNAME || 'admin';
-  const adminPassword = process.env.NUXT_PUBLIC_ADMIN_PASSWORD || 'admin123';
+  const config = useRuntimeConfig();
+  const adminUsername = config.public.adminUsername || 'admin';
+  const adminPassword = config.public.adminPassword || 'admin123';
   
   return username === adminUsername && password === adminPassword;
 };

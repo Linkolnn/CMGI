@@ -49,11 +49,11 @@
                   <p class="event-item__description">{{ event.description }}</p>
                   <div class="event-item__details">
                     <span class="event-item__location">
-                      <span class="event-item__icon">📍</span>
+                      <span class="event-item__icon"><i class="fas fa-map-marker-alt"></i></span>
                       {{ event.location }}
                     </span>
                     <span class="event-item__time">
-                      <span class="event-item__icon">🕒</span>
+                      <span class="event-item__icon"><i class="fas fa-clock"></i></span>
                       {{ event.time }}
                     </span>
                   </div>
@@ -77,12 +77,12 @@
           
           <div class="uray-youth-content__sidebar">
             <div class="sidebar-block">
-              <h3 class="sidebar-block__title">Подать инициативу</h3>
+              <h3 class="sidebar-block__title">Предложить инициативу</h3>
               <p class="sidebar-block__text">
                 У вас есть идея проекта для молодёжи? Поделитесь ею с нами, и мы поможем воплотить её в жизнь!
               </p>
               <NuxtLink to="/initiative" class="btn btn--primary sidebar-block__button">
-                Подать инициативу
+                Предложить инициативу
               </NuxtLink>
             </div>
             
@@ -90,19 +90,19 @@
               <h3 class="sidebar-block__title">Контакты</h3>
               <ul class="sidebar-block__list">
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">👤</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-user"></i></span>
                   <span class="sidebar-block__text">
                     <strong>Координатор:</strong> Козлова Мария Александровна
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">📞</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-phone"></i></span>
                   <span class="sidebar-block__text">
                     <strong>Телефон:</strong> +7 (34676) 2-23-45
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✉️</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-envelope"></i></span>
                   <span class="sidebar-block__text">
                     <strong>Email:</strong> youth@cmgi-uray.ru
                   </span>
@@ -115,7 +115,7 @@
               <ul class="sidebar-block__list">
                 <li v-for="(link, index) in usefulLinks" :key="index" class="sidebar-block__item">
                   <a :href="link.url" target="_blank" class="sidebar-block__link">
-                    <span class="sidebar-block__icon">🔗</span>
+                    <span class="sidebar-block__icon"><i class="fas fa-link"></i></span>
                     {{ link.title }}
                   </a>
                 </li>
@@ -125,102 +125,67 @@
         </div>
       </div>
     </section>
+    
+    <!-- Фотогалерея -->
+    <GallerySection 
+      title="Фотогалерея" 
+      description="Фотографии с мероприятий и проектов направления 'Урай Молодёжный'" 
+      category="uray-youth" 
+      :limit="6" 
+    />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Banner from '~/components/ui/Banner.vue';
+import GallerySection from '~/components/sections/GallerySection.vue';
+import { useProjectsStore } from '~/stores/projects';
+import { useEventsStore } from '~/stores/events';
+import { useGalleryStore } from '~/stores/gallery';
 
-// Projects data
-const projects = ref([
-  {
-    title: 'Молодёжный форум "Урай 2025"',
-    description: 'Ежегодный форум для активной молодёжи города и региона. Образовательные площадки, мастер-классы, нетворкинг и проектная деятельность.',
-    image: '/images/newsCardBanner.jpg'
-  },
-  {
-    title: 'Школа молодого лидера',
-    description: 'Образовательная программа для развития лидерских качеств, навыков командной работы и проектного мышления у молодёжи.',
-    image: '/images/uray-youth.jpg'
-  },
-  {
-    title: 'Фестиваль молодёжных субкультур "StreetFest"',
-    description: 'Площадка для самовыражения представителей различных молодёжных субкультур: скейтбординг, граффити, брейк-данс, рэп и многое другое.',
-    image: '/images/volonter.jpg'
-  },
-  {
-    title: 'Конкурс молодёжных проектов',
-    description: 'Ежегодный конкурс для поддержки социально значимых инициатив молодёжи. Победители получают финансирование на реализацию своих проектов.',
-    image: '/images/dobro-center.jpg'
-  }
-]);
+// Инициализация хранилищ
+const projectsStore = useProjectsStore();
+const eventsStore = useEventsStore();
 
-// Events data
-const events = ref([
-  {
-    title: 'Мастер-класс "Социальное проектирование"',
-    description: 'Практический мастер-класс по разработке и реализации социальных проектов.',
-    date: '2025-05-15',
-    location: 'Центр молодёжных инициатив, ул. Ленина, 88',
-    time: '15:00 - 17:00'
-  },
-  {
-    title: 'Встреча с успешными предпринимателями города',
-    description: 'Открытый диалог с молодыми предпринимателями, которые поделятся своим опытом и историями успеха.',
-    date: '2025-05-20',
-    location: 'Коворкинг "Точка роста", ул. Мира, 24',
-    time: '18:00 - 20:00'
-  },
-  {
-    title: 'Фестиваль молодёжных субкультур "StreetFest"',
-    description: 'Ежегодный фестиваль, объединяющий представителей различных молодёжных субкультур.',
-    date: '2025-06-12',
-    location: 'Городской парк',
-    time: '12:00 - 20:00'
-  },
-  {
-    title: 'Молодёжный форум "Урай 2025"',
-    description: 'Главное молодёжное событие года. Образовательные площадки, мастер-классы, нетворкинг.',
-    date: '2025-07-10',
-    location: 'Дворец культуры "Нефтяник"',
-    time: '10:00 - 18:00'
-  }
-]);
+onMounted(() => {
+  // Загрузка данных из localStorage
+  projectsStore.initProjects();
+  eventsStore.initEvents();
+});
 
-// Success stories data
-const successStories = ref([
-  {
-    name: 'Алексей Смирнов',
-    story: 'Благодаря поддержке Центра молодёжных инициатив я смог реализовать свой проект "ЭкоУрай". Мы организовали серию экологических акций, привлекли более 200 волонтёров и высадили более 500 деревьев в городе. Сейчас проект получил региональную поддержку и развивается в других городах округа.',
-    image: '/images/logo.jpg'
-  },
-  {
-    name: 'Екатерина Иванова',
-    story: 'Я начала свой путь как волонтёр на городских мероприятиях. Центр молодёжных инициатив помог мне пройти обучение по организации мероприятий, а затем поддержал мою идею создания молодёжного театра. Сейчас наш театр "Новая сцена" известен не только в Урае, но и за его пределами.',
-    image: '/images/newsCardBanner.jpg'
-  }
-]);
+// Получение проектов категории 'uray-youth'
+const projects = computed(() => {
+  return projectsStore.getProjectsByCategory('uray-youth');
+});
 
-// Useful links data
-const usefulLinks = ref([
-  {
-    title: 'Федеральное агентство по делам молодёжи',
-    url: 'https://fadm.gov.ru/'
-  },
-  {
-    title: 'Портал "Добро.ру"',
-    url: 'https://dobro.ru/'
-  },
-  {
-    title: 'Грантовый конкурс молодёжных инициатив',
-    url: 'https://grants.myrosmol.ru/'
-  },
-  {
-    title: 'Департамент молодёжной политики ХМАО-Югры',
-    url: 'https://depms.admhmao.ru/'
-  }
-]);
+// Получение предстоящих событий категории 'uray-youth'
+const events = computed(() => {
+  const urayYouthEvents = eventsStore.getEventsByCategory('uray-youth');
+  return urayYouthEvents
+    .filter(event => new Date(event.date) >= new Date())
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .map(event => {
+      const eventDate = new Date(event.date);
+      return {
+        ...event,
+        formattedDate: eventDate.toLocaleDateString('ru-RU'),
+        time: `${eventDate.getHours().toString().padStart(2, '0')}:${eventDate.getMinutes().toString().padStart(2, '0')}`
+      };
+    });
+});
+
+// Форматирование даты для отображения
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ru-RU');
+};
+
+// Форматирование времени для отображения
+const formatTime = (dateString) => {
+  const date = new Date(dateString);
+  return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+};
 
 // Format date functions
 const formatDay = (dateString) => {
@@ -236,6 +201,45 @@ const formatMonth = (dateString) => {
   ];
   return months[date.getMonth()];
 };
+
+// Success stories data
+const successStories = computed(() => {
+  return [
+    {
+      name: 'Алексей Смирнов',
+      story: 'Благодаря поддержке Центра молодёжных инициатив я смог реализовать свой проект "ЭкоУрай". Мы организовали серию экологических акций, привлекли более 200 волонтёров и высадили более 500 деревьев в городе. Сейчас проект получил региональную поддержку и развивается в других городах округа.',
+      image: '/images/avatar.svg'
+    },
+    {
+      name: 'Екатерина Иванова',
+      story: 'Я начала свой путь как волонтёр на городских мероприятиях. Центр молодёжных инициатив помог мне пройти обучение по организации мероприятий, а затем поддержал мою идею создания молодёжного театра. Сейчас наш театр "Новая сцена" известен не только в Урае, но и за его пределами.',
+      image: '/images/avatar.svg'
+    }
+  ];
+});
+
+// Useful links data
+const usefulLinks = computed(() => {
+  return [
+    {
+      title: 'Федеральное агентство по делам молодёжи',
+      url: 'https://fadm.gov.ru/'
+    },
+    {
+      title: 'Портал "Добро.ру"',
+      url: 'https://dobro.ru/'
+    },
+    {
+      title: 'Грантовый конкурс молодёжных инициатив',
+      url: 'https://grants.myrosmol.ru/'
+    },
+    {
+      title: 'Департамент молодёжной политики ХМАО-Югры',
+      url: 'https://depms.admhmao.ru/'
+    }
+  ];
+});
+
 </script>
 
 <style lang="scss">
@@ -409,11 +413,13 @@ const formatMonth = (dateString) => {
       border-radius: 50%;
       overflow: hidden;
       flex-shrink: 0;
+      background: $primary-green;
       border: 3px solid $primary-green;
       
       img {
         width: 100%;
         height: 100%;
+        transform: translate(-1%, -2%);
         object-fit: cover;
       }
     }

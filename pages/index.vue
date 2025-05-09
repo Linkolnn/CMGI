@@ -8,7 +8,7 @@
           <p class="hero-banner__subtitle">Центр молодёжных и гражданских инициатив города Урай</p>
           <div class="hero-banner__actions">
             <NuxtLink to="/initiative" class="btn btn--primary btn--lg">
-              Подать инициативу
+              Предложить инициативу
             </NuxtLink>
             <NuxtLink to="/about" class="btn btn--secondary btn--lg">
               Узнать больше
@@ -31,7 +31,7 @@
           </p>
           <NuxtLink to="/about" class="about-section__link">
             Подробнее о нас
-            <span class="about-section__link-arrow">→</span>
+            <span class="about-section__link-arrow"><i class="fas fa-arrow-right"></i></span>
           </NuxtLink>
         </div>
       </div>
@@ -60,7 +60,7 @@
             который может сделать жизнь в Урае лучше — расскажите нам о нём!
           </p>
           <NuxtLink to="/initiative" class="btn btn--primary btn--lg">
-            Подать инициативу
+            Предложить инициативу
           </NuxtLink>
         </div>
       </div>

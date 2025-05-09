@@ -2,7 +2,23 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: process.env.NODE_ENV === 'development' },
-  css: ['~/assets/styles/main.scss'],
+  
+  // Конфигурация для доступа к переменным окружения
+  runtimeConfig: {
+    // Приватные ключи доступны только на сервере
+    // Публичные ключи доступны и на клиенте
+    public: {
+      apiKey: process.env.NUXT_PUBLIC_API_KEY,
+      adminUsername: process.env.NUXT_PUBLIC_ADMIN_USERNAME,
+      adminPassword: process.env.NUXT_PUBLIC_ADMIN_PASSWORD,
+      appName: process.env.NUXT_PUBLIC_APP_NAME,
+      appUrl: process.env.NUXT_PUBLIC_APP_URL
+    }
+  },
+  css: [
+    '~/assets/styles/main.scss',
+    '@fortawesome/fontawesome-free/css/all.css'
+  ],
   modules: [
     '@pinia/nuxt',
   ],
@@ -32,8 +48,7 @@ export default defineNuxtConfig({
         { hid: 'description', name: 'description', content: 'Центр молодёжных и гражданских инициатив города Урай' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
       ]
     }
   },

@@ -1,12 +1,12 @@
 <template>
-  <div class="direction-card">
+  <div class="direction-card" @click="navigateToLink">
     <div class="direction-card__image">
       <img :src="image" :alt="title" />
     </div>
     <div class="direction-card__content">
       <h3 class="direction-card__title">{{ title }}</h3>
       <p class="direction-card__description">{{ description }}</p>
-      <NuxtLink :to="link" class="btn btn--primary direction-card__button">
+      <NuxtLink :to="link" class="btn btn--primary direction-card__button" @click.stop>
         Узнать больше
       </NuxtLink>
     </div>
@@ -14,7 +14,10 @@
 </template>
 
 <script setup>
-defineProps({
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const props = defineProps({
   title: {
     type: String,
     required: true
@@ -32,6 +35,13 @@ defineProps({
     required: true
   }
 });
+
+const navigateToLink = (event) => {
+  // Если клик был не на кнопке, переходим по ссылке
+  if (!event.target.closest('.direction-card__button')) {
+    router.push(props.link);
+  }
+};
 </script>
 
 <style lang="scss">
@@ -42,9 +52,13 @@ defineProps({
   height: 100%;
   overflow: hidden;
   transition: transform 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
   
   &:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
   
   &__image {

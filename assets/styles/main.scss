@@ -3,6 +3,8 @@
 
 // Reset and base styles
 * {
+  text-decoration: none;
+  border: none;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -74,6 +76,10 @@ p {
   
   &--secondary {
     @include button-secondary;
+  }
+  
+  &--danger {
+    @include button-danger;
   }
   
   &--lg {

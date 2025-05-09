@@ -21,7 +21,7 @@
           <div class="news-detail-banner__content">
             <div class="news-detail-banner__meta">
               <span class="news-detail-banner__date">{{ formatDate(newsItem.date) }}</span>
-              <span class="news-detail-banner__category">{{ newsItem.category }}</span>
+              <span class="news-detail-banner__category">{{ getCategoryLabel(newsItem.category) }}</span>
             </div>
             <h1 class="news-detail-banner__title">{{ newsItem.title }}</h1>
           </div>
@@ -103,7 +103,7 @@
                       :to="`/news?category=${encodeURIComponent(category)}`" 
                       class="categories-list__link"
                     >
-                      {{ category }}
+                      {{ getCategoryLabel(category) }}
                     </NuxtLink>
                   </li>
                 </ul>
@@ -191,11 +191,15 @@ const categories = computed(() => {
 // Format date
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return new Intl.DateTimeFormat('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }).format(date);
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+};
+
+// Get category label in Russian
+const getCategoryLabel = (category) => {
+  return newsStore.getCategoryLabel(category);
 };
 
 // Share functions

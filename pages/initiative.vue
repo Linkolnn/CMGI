@@ -2,7 +2,7 @@
   <div class="initiative-page">
     <!-- Banner -->
     <Banner 
-      title="Подать инициативу" 
+      title="Предложить инициативу" 
       subtitle="Поделитесь своими идеями и предложениями"
       backgroundImage="/images/logo.jpg"
     />
@@ -22,7 +22,7 @@
             
             <div class="process-steps">
               <div class="process-step">
-                <div class="process-step__number">1</div>
+                <div class="process-step__number"><i class="fas fa-file-alt"></i></div>
                 <div class="process-step__content">
                   <h3 class="process-step__title">Заполните форму</h3>
                   <p class="process-step__description">
@@ -33,7 +33,7 @@
               </div>
               
               <div class="process-step">
-                <div class="process-step__number">2</div>
+                <div class="process-step__number"><i class="fas fa-search"></i></div>
                 <div class="process-step__content">
                   <h3 class="process-step__title">Рассмотрение заявки</h3>
                   <p class="process-step__description">
@@ -44,7 +44,7 @@
               </div>
               
               <div class="process-step">
-                <div class="process-step__number">3</div>
+                <div class="process-step__number"><i class="fas fa-tasks"></i></div>
                 <div class="process-step__content">
                   <h3 class="process-step__title">Разработка плана</h3>
                   <p class="process-step__description">
@@ -55,7 +55,7 @@
               </div>
               
               <div class="process-step">
-                <div class="process-step__number">4</div>
+                <div class="process-step__number"><i class="fas fa-rocket"></i></div>
                 <div class="process-step__content">
                   <h3 class="process-step__title">Реализация</h3>
                   <p class="process-step__description">
@@ -75,43 +75,43 @@
               <h3 class="sidebar-block__title">Какие инициативы мы поддерживаем</h3>
               <ul class="sidebar-block__list">
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✅</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-check-circle"></i></span>
                   <span class="sidebar-block__text">
                     Социальные проекты, направленные на решение проблем города и его жителей
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✅</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-check-circle"></i></span>
                   <span class="sidebar-block__text">
                     Образовательные и просветительские инициативы
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✅</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-check-circle"></i></span>
                   <span class="sidebar-block__text">
                     Экологические проекты
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✅</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-check-circle"></i></span>
                   <span class="sidebar-block__text">
                     Культурные и творческие мероприятия
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✅</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-check-circle"></i></span>
                   <span class="sidebar-block__text">
                     Спортивные и оздоровительные проекты
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✅</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-check-circle"></i></span>
                   <span class="sidebar-block__text">
                     Патриотические инициативы
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✅</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-check-circle"></i></span>
                   <span class="sidebar-block__text">
                     Волонтёрские проекты
                   </span>
@@ -147,13 +147,13 @@
               </p>
               <ul class="sidebar-block__list">
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">📞</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-phone"></i></span>
                   <span class="sidebar-block__text">
                     +7 (34676) 2-23-45
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✉️</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-envelope"></i></span>
                   <span class="sidebar-block__text">
                     initiatives@cmgi-uray.ru
                   </span>

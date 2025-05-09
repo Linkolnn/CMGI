@@ -41,7 +41,7 @@
                 <NuxtLink to="/contacts" class="nav-link" @click="isMenuOpen = false">Контакты</NuxtLink>
               </li>
               <li class="nav-item nav-item--highlight">
-                <NuxtLink to="/initiative" class="nav-link nav-link--highlight" @click="isMenuOpen = false">Подать инициативу</NuxtLink>
+                <NuxtLink to="/initiative" class="nav-link nav-link--highlight" @click="isMenuOpen = false">Предложить инициативу</NuxtLink>
               </li>
             </ul>
           </nav>
@@ -305,7 +305,6 @@ const isMenuOpen = ref(false);
       max-width: 55px;
       width: 100%;
       height: auto;
-      filter: brightness(0) invert(1);
     }
   }
   

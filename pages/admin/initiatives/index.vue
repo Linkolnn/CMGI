@@ -3,7 +3,7 @@
     <div class="admin-initiatives__header">
       <h1 class="admin-initiatives__title">Управление заявками</h1>
       <NuxtLink to="/admin/initiatives/new" class="btn btn--primary">
-        Добавить заявку
+        <i class="fas fa-plus-circle"></i> Добавить заявку
       </NuxtLink>
     </div>
     
@@ -48,7 +48,7 @@
     <div v-else-if="error" class="admin-initiatives__error">
       <p>{{ error }}</p>
       <button @click="fetchInitiatives" class="btn btn--primary">
-        Попробовать снова
+        <i class="fas fa-sync-alt"></i> Попробовать снова
       </button>
     </div>
     
@@ -56,58 +56,66 @@
       <p>Заявок не найдено.</p>
     </div>
     
-    <div v-else class="admin-initiatives__table">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Имя</th>
-            <th>Контакт</th>
-            <th>Направление</th>
-            <th>Дата</th>
-            <th>Статус</th>
-            <th>Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="initiative in filteredInitiatives" :key="initiative.id">
-            <td>{{ initiative.id }}</td>
-            <td>{{ initiative.name }}</td>
-            <td>{{ initiative.contact }}</td>
-            <td>{{ getDirectionLabel(initiative.direction) }}</td>
-            <td>{{ formatDate(initiative.date) }}</td>
-            <td>
-              <select 
-                v-model="initiative.status" 
-                class="status-select"
-                @change="updateInitiativeStatus(initiative.id, initiative.status)"
-              >
-                <option value="new">Новая</option>
-                <option value="in-progress">В работе</option>
-                <option value="completed">Завершена</option>
-              </select>
-            </td>
-            <td>
-              <div class="action-buttons">
-                <NuxtLink 
-                  :to="`/admin/initiatives/${initiative.id}`" 
-                  class="action-button action-button--view"
-                  title="Просмотр"
-                >
-                  👁️
-                </NuxtLink>
-                <button 
-                  class="action-button action-button--delete"
-                  title="Удалить"
-                  @click="confirmDelete(initiative)"
-                >
-                  🗑️
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div v-else class="initiatives-cards">
+      <div v-for="initiative in filteredInitiatives" :key="initiative.id" class="initiative-card">
+        <div class="initiative-card__header">
+          <span class="initiative-card__id">#{{ initiative.id }}</span>
+          <span 
+            class="status-badge" 
+            :class="`status-badge--${initiative.status}`"
+          >
+            {{ getStatusLabel(initiative.status) }}
+          </span>
+        </div>
+        
+        <div class="initiative-card__content">
+          <h3 class="initiative-card__name">{{ initiative.name }}</h3>
+          <p class="initiative-card__description">{{ initiative.description.substring(0, 100) }}{{ initiative.description.length > 100 ? '...' : '' }}</p>
+          
+          <div class="initiative-card__meta">
+            <div class="initiative-card__meta-item">
+              <i class="fas fa-tag"></i> {{ getDirectionLabel(initiative.direction) }}
+            </div>
+            <div class="initiative-card__meta-item">
+              <i class="fas fa-calendar"></i> {{ formatDate(initiative.date) }}
+            </div>
+            <div class="initiative-card__meta-item">
+              <i class="fas fa-user"></i> {{ initiative.contact }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="initiative-card__actions">
+          <div class="initiative-card__status-selector">
+            <select 
+              :id="`status-${initiative.id}`"
+              v-model="initiative.status" 
+              class="status-select"
+              @change="updateInitiativeStatus(initiative.id, initiative.status)"
+            >
+              <option value="new">Новая</option>
+              <option value="in-progress">В работе</option>
+              <option value="completed">Завершена</option>
+            </select>
+          </div>
+          
+          <div class="initiative-card__buttons">
+            <NuxtLink 
+              :to="`/admin/initiatives/${initiative.id}`" 
+              class="btn btn--primary btn--sm"
+            >
+              <i class="fas fa-edit"></i> Управление
+            </NuxtLink>
+            
+            <button 
+              class="btn btn--danger btn--sm"
+              @click="confirmDelete(initiative)"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     
     <!-- Delete Confirmation Modal -->
@@ -120,10 +128,10 @@
         </p>
         <div class="delete-modal__actions">
           <button @click="cancelDelete" class="btn btn--secondary">
-            Отмена
+            <i class="fas fa-times"></i> Отмена
           </button>
-          <button @click="deleteInitiative" class="btn btn--primary">
-            Удалить
+          <button @click="deleteInitiative" class="btn btn--danger">
+            <i class="fas fa-trash-alt"></i> Удалить
           </button>
         </div>
       </div>
@@ -204,6 +212,20 @@ const filteredInitiatives = computed(() => {
 });
 
 // Helper functions
+const getStatusLabel = (status) => {
+  const statuses = {
+    'new': 'Новая',
+    'in-progress': 'В работе',
+    'completed': 'Завершена'
+  };
+  return statuses[status] || status;
+};
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+};
+
 const getDirectionLabel = (direction) => {
   const directions = {
     'uray-youth': 'Урай Молодёжный',
@@ -214,14 +236,7 @@ const getDirectionLabel = (direction) => {
   return directions[direction] || direction;
 };
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat('ru-RU', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric'
-  }).format(date);
-};
+// Функция formatDate уже объявлена выше
 
 // Update initiative status
 const updateInitiativeStatus = async (id, status) => {
@@ -239,25 +254,20 @@ const confirmDelete = (initiative) => {
   showDeleteModal.value = true;
 };
 
+// Cancel delete action
 const cancelDelete = () => {
-  initiativeToDelete.value = null;
   showDeleteModal.value = false;
+  initiativeToDelete.value = null;
 };
 
+// Delete initiative
 const deleteInitiative = async () => {
   try {
-    // In a real application, this would call an API to delete the initiative
-    // For demo purposes, we'll just remove it from the store
-    const index = initiativesStore.initiatives.findIndex(item => item.id === initiativeToDelete.value.id);
-    if (index !== -1) {
-      initiativesStore.initiatives.splice(index, 1);
-    }
-    
+    await initiativesStore.deleteInitiative(initiativeToDelete.value.id);
     showDeleteModal.value = false;
     initiativeToDelete.value = null;
-  } catch (error) {
-    console.error('Error deleting initiative:', error);
-    alert('Ошибка при удалении заявки');
+  } catch (err) {
+    console.error('Error deleting initiative:', err);
   }
 };
 </script>
@@ -305,67 +315,104 @@ const deleteInitiative = async () => {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   }
   
-  &__table {
-    background-color: $white;
-    border-radius: $border-radius-md;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    overflow-x: auto;
-    
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      
-      th, td {
-        padding: $spacing-md;
-        text-align: left;
-        border-bottom: 1px solid rgba($dark-gray, 0.1);
-      }
-      
-      th {
-        font-weight: 600;
-        color: lighten($dark-gray, 20%);
-        font-size: $font-size-sm;
-      }
-      
-      tr:last-child td {
-        border-bottom: none;
-      }
-    }
+}
+
+.initiatives-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+  
+  @include tablet {
+    grid-template-columns: 1fr;
   }
 }
 
-.filter-group {
-  flex: 1;
+.initiative-card {
+  background-color: $white;
+  border-radius: $border-radius-md;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   
-  &__label {
-    display: block;
-    margin-bottom: $spacing-xs;
-    font-size: $font-size-sm;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    background-color: $light-purple;
+    border-bottom: 1px solid rgba($dark-gray, 0.1);
+  }
+  
+  &__id {
+    font-weight: 600;
+    color: $primary-purple;
+  }
+  
+  &__content {
+    padding: $spacing-md;
+    flex: 1;
+  }
+  
+  &__name {
+    font-size: $font-size-base;
+    margin-bottom: $spacing-sm;
+  }
+  
+  &__description {
     color: lighten($dark-gray, 20%);
+    margin-bottom: $spacing-md;
+    font-size: $font-size-sm;
   }
   
-  &__select,
-  &__input {
-    width: 100%;
-    padding: $spacing-sm;
-    border: 1px solid rgba($dark-gray, 0.2);
-    border-radius: $border-radius-sm;
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+    font-size: $font-size-xs;
+  }
+  
+  &__meta-item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    color: lighten($dark-gray, 30%);
     
-    &:focus {
-      outline: none;
-      border-color: $primary-purple;
+    i {
+      color: $primary-purple;
     }
   }
-}
-
-.status-select {
-  padding: $spacing-xs $spacing-sm;
-  border: 1px solid rgba($dark-gray, 0.2);
-  border-radius: $border-radius-sm;
   
-  &:focus {
-    outline: none;
-    border-color: $primary-purple;
+  &__status-selector {
+    flex: 1;
+    
+    select {
+      padding: $spacing-xs $spacing-sm;
+      border: 1px solid $light-gray;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-sm;
+      width: 100%;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-purple;
+      }
+    }
+  }
+  
+  &__actions {
+    padding: $spacing-sm $spacing-md;
+    border-top: 1px solid rgba($dark-gray, 0.1);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  &__buttons {
+    display: flex;
+    gap: $spacing-sm;
   }
 }
 

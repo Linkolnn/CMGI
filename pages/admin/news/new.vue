@@ -3,7 +3,7 @@
     <div class="admin-news-new__header">
       <div class="admin-news-new__back">
         <NuxtLink to="/admin/news" class="back-link">
-          ← Назад к списку новостей
+          <i class="fas fa-arrow-left"></i> Назад к списку новостей
         </NuxtLink>
       </div>
       <h1 class="admin-news-new__title">
@@ -40,9 +40,9 @@
               >
                 <option value="" disabled selected>Выберите категорию</option>
                 <option value="events">События</option>
-                <option value="announcements">Анонсы</option>
-                <option value="projects">Проекты</option>
-                <option value="other">Другое</option>
+                <option value="volunteers">Волонтёрство</option>
+                <option value="announcements">Объявления</option>
+                <option value="news">Новости</option>
               </select>
               <span v-if="errors.category" class="form__error">{{ errors.category }}</span>
             </div>
@@ -100,7 +100,7 @@
                 @change="handleImageUpload"
               />
               <div class="form__file-button">
-                <span class="form__file-icon">🖼️</span>
+                <div class="form__file-icon"><i class="fas fa-image"></i></div>
                 <span class="form__file-text">{{ imageButtonText }}</span>
               </div>
             </div>
@@ -126,14 +126,14 @@
               class="btn btn--secondary"
               :disabled="submitting"
             >
-              Очистить
+              <i class="fas fa-eraser"></i> Очистить
             </button>
             <button
               type="submit"
               class="btn btn--primary"
               :disabled="submitting"
             >
-              {{ submitting ? 'Сохранение...' : 'Опубликовать новость' }}
+              <i class="fas fa-paper-plane"></i> {{ submitting ? 'Сохранение...' : 'Опубликовать новость' }}
             </button>
           </div>
         </form>
@@ -178,17 +178,17 @@
     <!-- Success Modal -->
     <div v-if="showSuccessModal" class="success-modal">
       <div class="success-modal__content">
-        <div class="success-modal__icon">✅</div>
+        <div class="success-modal__icon"><i class="fas fa-check-circle"></i></div>
         <h2 class="success-modal__title">Новость успешно опубликована!</h2>
         <p class="success-modal__text">
           Новость была успешно добавлена и опубликована на сайте.
         </p>
         <div class="success-modal__actions">
           <NuxtLink to="/admin/news" class="btn btn--secondary">
-            Вернуться к списку
+            <i class="fas fa-list"></i> Вернуться к списку
           </NuxtLink>
           <button @click="createAnother" class="btn btn--primary">
-            Создать еще одну
+            <i class="fas fa-plus"></i> Создать еще одну
           </button>
         </div>
       </div>
@@ -539,7 +539,6 @@ const createAnother = () => {
   
   .form__actions {
     display: flex;
-    justify-content: flex-end;
     gap: $spacing-md;
     margin-top: $spacing-xl;
   }

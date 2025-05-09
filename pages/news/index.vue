@@ -81,7 +81,7 @@
               required
             />
             <button type="submit" class="btn btn--primary news-subscribe__button">
-              Подписаться
+              <i class="fas fa-envelope"></i> Подписаться
             </button>
           </form>
           <p v-if="subscribeSuccess" class="news-subscribe__success">
@@ -94,12 +94,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useNewsStore } from '../../stores/news';
+import { useRoute, useRouter } from 'vue-router';
 import Banner from '~/components/ui/Banner.vue';
 import NewsCard from '~/components/ui/NewsCard.vue';
 
 const newsStore = useNewsStore();
+const route = useRoute();
+const router = useRouter();
 const loading = ref(true);
 const error = ref(null);
 const activeFilter = ref('all');
@@ -108,10 +111,11 @@ const subscribeSuccess = ref(false);
 
 // Filter options
 const filterOptions = [
-  { label: 'Все новости', value: 'all' },
-  { label: 'Урай Молодёжный', value: 'Урай Молодёжный' },
-  { label: 'Волонтёры Победы', value: 'Волонтёры Победы' },
-  { label: 'Добро.Центр', value: 'Добро.Центр' }
+  { label: newsStore.getCategoryLabel('all'), value: 'all' },
+  { label: newsStore.getCategoryLabel('events'), value: 'events' },
+  { label: newsStore.getCategoryLabel('volunteers'), value: 'volunteers' },
+  { label: newsStore.getCategoryLabel('announcements'), value: 'announcements' },
+  { label: newsStore.getCategoryLabel('other'), value: 'other' }
 ];
 
 // Archive years
@@ -122,9 +126,16 @@ const filteredNews = computed(() => {
   return newsStore.getNewsByCategory(activeFilter.value);
 });
 
-// Set active filter
+// Set active filter and update URL
 const setFilter = (filter) => {
   activeFilter.value = filter;
+  
+  // Обновляем URL с параметром категории
+  if (filter === 'all') {
+    router.push({ path: '/news' }); // Убираем параметр из URL если выбраны все категории
+  } else {
+    router.push({ path: '/news', query: { category: filter } });
+  }
 };
 
 // Show archive year
@@ -147,11 +158,25 @@ const subscribeToNews = () => {
   }, 5000);
 };
 
+// Обработка изменений URL параметров
+watch(() => route.query.category, (newCategory) => {
+  if (newCategory) {
+    activeFilter.value = newCategory;
+  } else {
+    activeFilter.value = 'all';
+  }
+});
+
 // Fetch news on component mount
 onMounted(async () => {
   try {
     loading.value = true;
     await newsStore.fetchNews();
+    
+    // Проверяем URL-параметры при загрузке
+    if (route.query.category) {
+      activeFilter.value = route.query.category;
+    }
   } catch (err) {
     error.value = 'Ошибка при загрузке новостей. Пожалуйста, попробуйте позже.';
     console.error('Error fetching news:', err);

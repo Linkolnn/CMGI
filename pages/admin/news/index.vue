@@ -3,7 +3,7 @@
     <div class="admin-news__header">
       <h1 class="admin-news__title">Управление новостями</h1>
       <NuxtLink to="/admin/news/new" class="btn btn--primary">
-        Добавить новость
+        <i class="fas fa-plus-circle"></i> Добавить новость
       </NuxtLink>
     </div>
     
@@ -13,9 +13,9 @@
         <select id="category-filter" v-model="categoryFilter" class="filter-group__select">
           <option value="all">Все категории</option>
           <option value="events">События</option>
-          <option value="announcements">Анонсы</option>
-          <option value="projects">Проекты</option>
-          <option value="other">Другое</option>
+          <option value="volunteers">Волонтёрство</option>
+          <option value="announcements">Объявления</option>
+          <option value="news">Новости</option>
         </select>
       </div>
       
@@ -38,7 +38,7 @@
     <div v-else-if="error" class="admin-news__error">
       <p>{{ error }}</p>
       <button @click="fetchNews" class="btn btn--primary">
-        Попробовать снова
+        <i class="fas fa-sync-alt"></i> Попробовать снова
       </button>
     </div>
     
@@ -63,10 +63,10 @@
           
           <div class="news-item__actions">
             <NuxtLink :to="`/admin/news/${item.id}`" class="btn btn--secondary btn--sm">
-              Редактировать
+              <i class="fas fa-edit"></i> Редактировать
             </NuxtLink>
             <button @click="confirmDelete(item)" class="btn btn--danger btn--sm">
-              Удалить
+              <i class="fas fa-trash-alt"></i> Удалить
             </button>
           </div>
         </div>
@@ -79,7 +79,7 @@
         class="pagination-btn" 
         :disabled="currentPage === 1"
       >
-        &laquo; Предыдущая
+        <i class="fas fa-chevron-left"></i> Предыдущая
       </button>
       
       <span class="pagination-info">
@@ -91,7 +91,7 @@
         class="pagination-btn" 
         :disabled="currentPage === totalPages"
       >
-        Следующая &raquo;
+        Следующая <i class="fas fa-chevron-right"></i>
       </button>
     </div>
     
@@ -105,10 +105,10 @@
         </p>
         <div class="delete-modal__actions">
           <button @click="cancelDelete" class="btn btn--secondary">
-            Отмена
+            <i class="fas fa-times"></i> Отмена
           </button>
           <button @click="deleteNews" class="btn btn--primary">
-            Удалить
+            <i class="fas fa-trash-alt"></i> Удалить
           </button>
         </div>
       </div>
@@ -214,13 +214,7 @@ const nextPage = () => {
 
 // Helper functions
 const getCategoryLabel = (category) => {
-  const categories = {
-    'events': 'События',
-    'announcements': 'Анонсы',
-    'projects': 'Проекты',
-    'other': 'Другое'
-  };
-  return categories[category] || category;
+  return newsStore.getCategoryLabel(category);
 };
 
 const formatDate = (dateString) => {

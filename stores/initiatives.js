@@ -76,22 +76,44 @@ export const useInitiativesStore = defineStore('initiatives', {
   },
   
   actions: {
+    // Загрузка инициатив из localStorage при инициализации
+    initInitiatives() {
+      if (process.client) {
+        const storedInitiatives = localStorage.getItem('cmgi_initiatives');
+        if (storedInitiatives) {
+          try {
+            this.initiatives = JSON.parse(storedInitiatives);
+          } catch (error) {
+            console.error('Ошибка при загрузке инициатив из localStorage:', error);
+            // Если произошла ошибка, оставляем дефолтные данные
+          }
+        }
+      }
+    },
+    
+    // Сохранение инициатив в localStorage
+    saveInitiatives() {
+      if (process.client) {
+        try {
+          localStorage.setItem('cmgi_initiatives', JSON.stringify(this.initiatives));
+        } catch (error) {
+          console.error('Ошибка при сохранении инициатив в localStorage:', error);
+        }
+      }
+    },
+    
     async fetchInitiatives() {
       this.loading = true;
       this.error = null;
       
       try {
-        // In a real application, this would be an API call
-        // For demo purposes, we're using the static data
-        // const response = await fetch('/api/initiatives');
-        // const data = await response.json();
-        // this.initiatives = data;
+        // Загружаем инициативы из localStorage
+        this.initInitiatives();
         
-        // Simulate API delay
+        // Имитация задержки API
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (error) {
         this.error = 'Ошибка при загрузке инициатив';
-        console.error('Error fetching initiatives:', error);
       } finally {
         this.loading = false;
       }
@@ -102,9 +124,10 @@ export const useInitiativesStore = defineStore('initiatives', {
       this.error = null;
       
       try {
-        // In a real application, this would be an API call
-        // For demo purposes, we're just adding to the local state
-        const newId = Math.max(...this.initiatives.map(item => item.id)) + 1;
+        // Создаем новую инициативу
+        const newId = this.initiatives.length > 0 
+          ? Math.max(...this.initiatives.map(item => item.id)) + 1 
+          : 1;
         const newInitiative = {
           ...initiative,
           id: newId,
@@ -113,14 +136,17 @@ export const useInitiativesStore = defineStore('initiatives', {
           comments: []
         };
         
-        // Simulate API delay
+        // Имитация задержки API
         await new Promise(resolve => setTimeout(resolve, 500));
         
         this.initiatives.unshift(newInitiative);
+        
+        // Сохраняем в localStorage
+        this.saveInitiatives();
+        
         return true;
       } catch (error) {
         this.error = 'Ошибка при добавлении инициативы';
-        console.error('Error adding initiative:', error);
         return false;
       } finally {
         this.loading = false;
@@ -135,14 +161,17 @@ export const useInitiativesStore = defineStore('initiatives', {
         const initiative = this.getInitiativeById(id);
         if (!initiative) throw new Error('Инициатива не найдена');
         
-        // Simulate API delay
+        // Имитация задержки API
         await new Promise(resolve => setTimeout(resolve, 500));
         
         initiative.status = status;
+        
+        // Сохраняем в localStorage
+        this.saveInitiatives();
+        
         return true;
       } catch (error) {
         this.error = 'Ошибка при обновлении статуса инициативы';
-        console.error('Error updating initiative status:', error);
         return false;
       } finally {
         this.loading = false;
@@ -163,14 +192,42 @@ export const useInitiativesStore = defineStore('initiatives', {
           date: new Date().toISOString().split('T')[0]
         };
         
-        // Simulate API delay
+        // Имитация задержки API
         await new Promise(resolve => setTimeout(resolve, 500));
         
         initiative.comments.push(newComment);
+        
+        // Сохраняем в localStorage
+        this.saveInitiatives();
+        
         return true;
       } catch (error) {
         this.error = 'Ошибка при добавлении комментария';
-        console.error('Error adding comment:', error);
+        return false;
+      } finally {
+        this.loading = false;
+      }
+    },
+    
+    async deleteInitiative(id) {
+      this.loading = true;
+      this.error = null;
+      
+      try {
+        const index = this.initiatives.findIndex(item => item.id === parseInt(id));
+        if (index === -1) throw new Error('Инициатива не найдена');
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        this.initiatives.splice(index, 1);
+        
+        // Сохраняем обновленные заявки в localStorage
+        localStorage.setItem('cmgi_initiatives', JSON.stringify(this.initiatives));
+        
+        return true;
+      } catch (error) {
+        this.error = 'Ошибка при удалении инициативы';
         return false;
       } finally {
         this.loading = false;

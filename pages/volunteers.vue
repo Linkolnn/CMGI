@@ -65,21 +65,20 @@
             </div>
             
             <h2 class="volunteers-content__title">Фотогалерея</h2>
-            <div class="gallery-grid">
-              <div v-for="(photo, index) in gallery" :key="index" class="gallery-item">
-                <img :src="photo.src" :alt="photo.alt" class="gallery-item__image" />
-              </div>
-            </div>
+            <GallerySection 
+              :title="null" 
+              :limit="6"
+            />
           </div>
           
           <div class="volunteers-content__sidebar">
             <div class="sidebar-block">
-              <h3 class="sidebar-block__title">Подать инициативу</h3>
+              <h3 class="sidebar-block__title">Предложить инициативу</h3>
               <p class="sidebar-block__text">
                 У вас есть идея патриотического проекта? Поделитесь ею с нами, и мы поможем воплотить её в жизнь!
               </p>
               <NuxtLink to="/initiative" class="btn btn--primary sidebar-block__button">
-                Подать инициативу
+                Предложить инициативу
               </NuxtLink>
             </div>
             
@@ -94,7 +93,7 @@
                   <div class="sidebar-event__content">
                     <h4 class="sidebar-event__title">{{ event.title }}</h4>
                     <p class="sidebar-event__location">
-                      <span class="sidebar-event__icon">📍</span>
+                      <span class="sidebar-event__icon"><i class="fas fa-map-marker-alt"></i></span>
                       {{ event.location }}
                     </p>
                   </div>
@@ -106,19 +105,19 @@
               <h3 class="sidebar-block__title">Контакты</h3>
               <ul class="sidebar-block__list">
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">👤</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-map-marker-alt"></i></span>
                   <span class="sidebar-block__text">
                     <strong>Координатор:</strong> Петрова Анна Сергеевна
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">📞</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-phone"></i></span>
                   <span class="sidebar-block__text">
                     <strong>Телефон:</strong> +7 (34676) 2-23-46
                   </span>
                 </li>
                 <li class="sidebar-block__item">
-                  <span class="sidebar-block__icon">✉️</span>
+                  <span class="sidebar-block__icon"><i class="fas fa-envelope"></i></span>
                   <span class="sidebar-block__text">
                     <strong>Email:</strong> volunteers@cmgi-uray.ru
                   </span>
@@ -129,36 +128,38 @@
         </div>
       </div>
     </section>
+    
+    <!-- Фотогалерея -->
+    <GallerySection 
+      title="Фотогалерея" 
+      description="Фотографии с мероприятий и проектов направления 'Волонтёры Победы'" 
+      category="volunteers" 
+      :limit="6" 
+    />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Banner from '~/components/ui/Banner.vue';
+import GallerySection from '~/components/sections/GallerySection.vue';
+import { useProjectsStore } from '~/stores/projects';
+import { useEventsStore } from '~/stores/events';
 
-// Projects data
-const projects = ref([
-  {
-    title: 'Георгиевская ленточка',
-    description: 'Ежегодная акция по раздаче георгиевских ленточек жителям города в преддверии Дня Победы. Волонтёры рассказывают о символике ленты и её исторической значимости.',
-    image: '/images/newsCardBanner.jpg'
-  },
-  {
-    title: 'Письмо Победы',
-    description: 'Акция, в рамках которой школьники и студенты пишут письма ветеранам Великой Отечественной войны со словами благодарности за их подвиг.',
-    image: '/images/uray-youth.jpg'
-  },
-  {
-    title: 'Уроки мужества',
-    description: 'Интерактивные занятия в школах города, посвящённые ключевым событиям Великой Отечественной войны и подвигам героев.',
-    image: '/images/volonter.jpg'
-  },
-  {
-    title: 'Благоустройство памятных мест',
-    description: 'Регулярные акции по уборке и благоустройству памятников, мемориалов и воинских захоронений на территории города.',
-    image: '/images/dobro-center.jpg'
-  }
-]);
+// Инициализация хранилищ
+const projectsStore = useProjectsStore();
+const eventsStore = useEventsStore();
+
+onMounted(() => {
+  // Загрузка данных из localStorage
+  projectsStore.initProjects();
+  eventsStore.initEvents();
+});
+
+// Получение проектов категории 'volunteers'
+const projects = computed(() => {
+  return projectsStore.getProjectsByCategory('volunteers');
+});
 
 // Join steps data
 const joinSteps = ref([
@@ -180,52 +181,23 @@ const joinSteps = ref([
   }
 ]);
 
-// Gallery data
-const gallery = ref([
-  {
-    src: '/images/newsCardBanner.jpg',
-    alt: 'Акция "Георгиевская ленточка"'
-  },
-  {
-    src: '/images/logo.jpg',
-    alt: 'Помощь ветеранам'
-  },
-  {
-    src: '/images/uray-youth.jpg',
-    alt: 'Урок мужества в школе'
-  },
-  {
-    src: '/images/volonter.jpg',
-    alt: 'Благоустройство памятника'
-  },
-  {
-    src: '/images/dobro-center.jpg',
-    alt: 'Парад Победы'
-  },
-  {
-    src: '/images/newsCardBanner.jpg',
-    alt: 'Волонтёры на мероприятии'
-  }
-]);
 
-// Events data
-const events = ref([
-  {
-    title: 'Акция "Георгиевская ленточка"',
-    date: '2025-05-09',
-    location: 'Центральная площадь города'
-  },
-  {
-    title: 'Урок мужества "Дорогами войны"',
-    date: '2025-05-12',
-    location: 'Школа №3'
-  },
-  {
-    title: 'Благоустройство мемориала',
-    date: '2025-05-16',
-    location: 'Парк Победы'
-  }
-]);
+
+// Получение предстоящих событий категории 'volunteers'
+const events = computed(() => {
+  const volunteersEvents = eventsStore.getEventsByCategory('volunteers');
+  return volunteersEvents
+    .filter(event => new Date(event.date) >= new Date())
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .map(event => {
+      const eventDate = new Date(event.date);
+      return {
+        ...event,
+        formattedDate: eventDate.toLocaleDateString('ru-RU'),
+        time: `${eventDate.getHours().toString().padStart(2, '0')}:${eventDate.getMinutes().toString().padStart(2, '0')}`
+      };
+    });
+});
 
 // Format date functions
 const formatDay = (dateString) => {

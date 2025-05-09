@@ -16,7 +16,7 @@
             
             <div class="contact-items">
               <div class="contact-item">
-                <div class="contact-item__icon">📍</div>
+                <div class="contact-item__icon"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="contact-item__content">
                   <h3 class="contact-item__title">Адрес</h3>
                   <p class="contact-item__text">г. Урай, ул. Ленина, 88</p>
@@ -25,7 +25,7 @@
               </div>
               
               <div class="contact-item">
-                <div class="contact-item__icon">📞</div>
+                <div class="contact-item__icon"><i class="fas fa-phone"></i></div>
                 <div class="contact-item__content">
                   <h3 class="contact-item__title">Телефон</h3>
                   <p class="contact-item__text">+7 (34676) 2-23-45</p>
@@ -34,7 +34,7 @@
               </div>
               
               <div class="contact-item">
-                <div class="contact-item__icon">✉️</div>
+                <div class="contact-item__icon"><i class="fas fa-envelope"></i></div>
                 <div class="contact-item__content">
                   <h3 class="contact-item__title">Email</h3>
                   <p class="contact-item__text">info@cmgi-uray.ru</p>
@@ -43,12 +43,12 @@
               </div>
               
               <div class="contact-item">
-                <div class="contact-item__icon">🌐</div>
+                <div class="contact-item__icon"><i class="fas fa-globe"></i></div>
                 <div class="contact-item__content">
                   <h3 class="contact-item__title">Социальные сети</h3>
                   <div class="contact-item__social">
-                    <a href="https://vk.com/" target="_blank" class="contact-item__social-link">ВКонтакте</a>
-                    <a href="https://t.me/" target="_blank" class="contact-item__social-link">Telegram</a>
+                    <a href="https://vk.com/cmgi_uray" target="_blank" class="contact-item__social-link">ВКонтакте</a>
+                    <a href="https://t.me/Uray_Molodej" target="_blank" class="contact-item__social-link">Telegram</a>
                   </div>
                 </div>
               </div>
@@ -118,16 +118,7 @@
       <div class="container">
         <h2 class="section__title">Как нас найти</h2>
         <div class="map-container">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2269.5033022587707!2d60.12345678901234!3d61.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNjHCsDA3JzM0LjQiTiA2MMKwMDcnMzQuNCJF!5e0!3m2!1sru!2sru!4v1620000000000!5m2!1sru!2sru" 
-            width="100%" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Карта расположения Центра молодёжных и гражданских инициатив"
-          ></iframe>
+          <div id="map" style="width:100%; height:450px;"></div>
         </div>
       </div>
     </section>
@@ -137,6 +128,96 @@
 <script setup>
 import Banner from '~/components/ui/Banner.vue';
 import ContactForm from '~/components/forms/ContactForm.vue';
+
+// Получаем конфигурацию для доступа к переменным окружения
+const config = useRuntimeConfig();
+
+// Координаты центра Урая (приблизительные)
+const centerCoords = [60.126589, 64.773679];
+const officeCoords = [60.126589, 64.773679]; // Координаты офиса (замените на реальные)
+
+// Получаем API ключ из конфигурации
+const apiKey = config.public.apiKey;
+
+onMounted(() => {
+  // Загрузка API Яндекс Карт
+  if (typeof window !== 'undefined' && !window.ymaps) {
+    const yandexMapScript = document.createElement('script');
+    yandexMapScript.setAttribute('src', `https://api-maps.yandex.ru/2.1/?apikey=${apiKey}&lang=ru_RU`);
+    yandexMapScript.addEventListener('load', initYandexMap);
+    document.head.appendChild(yandexMapScript);
+  } else if (window.ymaps) {
+    // Если API уже загружен, просто инициализируем карту
+    initYandexMap();
+  }
+});
+
+// Инициализация карты
+function initYandexMap() {
+  ymaps.ready(() => {
+    const map = new ymaps.Map('map', {
+      center: centerCoords,
+      zoom: 16,
+      controls: ['zoomControl', 'fullscreenControl']
+    });
+    
+    // Создаем кастомный макет для плейсмарка с круглой формой и белой границей
+    const customLayoutClass = ymaps.templateLayoutFactory.createClass(
+      '<div class="custom-placemark">' +
+      '<div class="custom-placemark__inner">' +
+      '<img src="/images/logo.jpg" alt="CMGI Logo" class="custom-placemark__image">' +
+      '</div>' +
+      '</div>',
+      {
+        build: function() {
+          customLayoutClass.superclass.build.call(this);
+          // Добавляем стили для кастомного плейсмарка
+          const element = this.getElement();
+          element.style.position = 'relative';
+          element.style.width = '50px';
+          element.style.height = '50px';
+          element.style.marginLeft = '-25px';
+          element.style.marginTop = '-25px';
+          
+          const inner = element.querySelector('.custom-placemark__inner');
+          inner.style.width = '44px';
+          inner.style.height = '44px';
+          inner.style.borderRadius = '50%';
+          inner.style.border = '3px solid #ffffff';
+          inner.style.overflow = 'hidden';
+          inner.style.boxShadow = '0 3px 6px rgba(0, 0, 0, 0.3)';
+          
+          const image = element.querySelector('.custom-placemark__image');
+          image.style.width = '100%';
+          image.style.height = '100%';
+          image.style.objectFit = 'cover';
+        }
+      }
+    );
+    
+    // Создание кастомного плейсмарка с логотипом
+    const placemark = new ymaps.Placemark(officeCoords, {
+      hintContent: 'Центр молодёжных и гражданских инициатив',
+      balloonContent: '<strong>Центр молодёжных и гражданских инициатив</strong><br>г. Урай, ул. Ленина, 88'
+    }, {
+      // Опции иконки с кастомным макетом
+      iconLayout: customLayoutClass,
+      // Смещение иконки
+      iconOffset: [-25, -25]
+    });
+    
+    map.geoObjects.add(placemark);
+    map.behaviors.disable('scrollZoom'); // Отключаем скролл карты колесом мыши
+    
+    // Добавляем кнопку для определения местоположения пользователя
+    const geolocationControl = new ymaps.control.GeolocationControl({
+      options: {
+        noPlacemark: true
+      }
+    });
+    map.controls.add(geolocationControl);
+  });
+}
 </script>
 
 <style lang="scss">
@@ -227,7 +308,7 @@ import ContactForm from '~/components/forms/ContactForm.vue';
   
   .department-items {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: $spacing-lg;
     
     @include tablet {

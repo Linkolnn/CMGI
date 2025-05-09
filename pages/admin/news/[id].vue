@@ -3,7 +3,7 @@
     <div class="admin-news-edit__header">
       <div class="admin-news-edit__back">
         <NuxtLink to="/admin/news" class="back-link">
-          ← Назад к списку новостей
+          <i class="fas fa-arrow-left"></i> Назад к списку новостей
         </NuxtLink>
       </div>
       <h1 class="admin-news-edit__title">
@@ -18,7 +18,7 @@
     <div v-else-if="error" class="admin-news-edit__error">
       <p>{{ error }}</p>
       <button @click="fetchNews" class="btn btn--primary">
-        Попробовать снова
+        <i class="fas fa-sync-alt"></i> Попробовать снова
       </button>
     </div>
     
@@ -132,15 +132,14 @@
             </div>
             
             <div class="form__actions">
-              <button
-                type="button"
-                @click="confirmDelete"
-                class="btn btn--danger"
-                :disabled="submitting"
-              >
-                Удалить новость
-              </button>
               <div>
+                <button
+                  type="submit"
+                  class="btn btn--primary"
+                  :disabled="submitting"
+                >
+                  <i class="fas fa-save"></i> {{ submitting ? 'Сохранение...' : 'Сохранить изменения' }}
+                </button>
                 <button
                   type="button"
                   @click="cancelEdit"
@@ -149,14 +148,15 @@
                 >
                   Отмена
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn--primary"
-                  :disabled="submitting"
-                >
-                  {{ submitting ? 'Сохранение...' : 'Сохранить изменения' }}
-                </button>
               </div>
+              <button
+                type="button"
+                @click="confirmDelete"
+                class="btn btn--danger"
+                :disabled="submitting"
+              >
+                <i class="fas fa-trash-alt"></i> Удалить новость
+              </button>
             </div>
           </form>
         </div>
@@ -208,10 +208,10 @@
         </p>
         <div class="delete-modal__actions">
           <button @click="cancelDelete" class="btn btn--secondary">
-            Отмена
+            <i class="fas fa-times"></i> Отмена
           </button>
           <button @click="deleteNews" class="btn btn--primary">
-            Удалить
+            <i class="fas fa-trash-alt"></i> Удалить
           </button>
         </div>
       </div>
@@ -531,25 +531,27 @@ const closeSuccessModal = () => {
   }
   
   &__title {
-    margin: 0;
+    font-size: $font-size-xl;
   }
   
   &__loading,
   &__error {
-    background-color: $white;
-    padding: $spacing-xl;
-    border-radius: $border-radius-md;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: $spacing-xl;
   }
   
   &__content {
     display: grid;
     grid-template-columns: 2fr 1fr;
+    grid-template-areas: "form sidebar";
     gap: $spacing-lg;
     
-    @include tablet {
-      grid-template-columns: 1fr;
+    .news-form-card {
+      grid-area: form;
+    }
+    
+    .admin-news-edit__sidebar {
+      grid-area: sidebar;
     }
   }
 }
@@ -672,7 +674,7 @@ const closeSuccessModal = () => {
       gap: $spacing-md;
       
       div {
-        justify-content: flex-end;
+        justify-content: space-between;
       }
     }
   }
@@ -855,4 +857,16 @@ const closeSuccessModal = () => {
     gap: $spacing-md;
   }
 }
+
+@include tablet {
+  .admin-news-edit {
+    &__content {
+      grid-template-columns: 1fr;
+      grid-template-areas: 
+        "sidebar"
+        "form";
+    }
+  }
+}
+
 </style>
