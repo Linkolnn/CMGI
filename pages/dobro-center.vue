@@ -462,6 +462,7 @@ const formatMonth = (dateString) => {
     &__photo {
       width: 60px;
       height: 60px;
+      flex-shrink: 0;
       border-radius: 50%;
       overflow: hidden;
       margin-right: $spacing-md;
