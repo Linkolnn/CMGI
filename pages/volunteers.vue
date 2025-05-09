@@ -63,12 +63,6 @@
                 </div>
               </div>
             </div>
-            
-            <h2 class="volunteers-content__title">Фотогалерея</h2>
-            <GallerySection 
-              :title="null" 
-              :limit="6"
-            />
           </div>
           
           <div class="volunteers-content__sidebar">
@@ -128,8 +122,7 @@
         </div>
       </div>
     </section>
-    
-    <!-- Фотогалерея -->
+
     <GallerySection 
       title="Фотогалерея" 
       description="Фотографии с мероприятий и проектов направления 'Волонтёры Победы'" 
@@ -376,7 +369,6 @@ const formatMonth = (dateString) => {
   }
   
   .gallery-item {
-    height: 200px;
     border-radius: $border-radius-md;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
