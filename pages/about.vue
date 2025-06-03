@@ -134,21 +134,17 @@ const team = ref([
 // Documents data
 const documents = ref([
   {
-    title: 'Устав организации',
-    link: '/documents/ustav.pdf'
+    title: 'Устав МАУ МП «ЦМиГИ»',
+    link: 'https://uray.ru/wp-content/uploads/2023/05/ustav-mau-mp-cmigi.pdf'
   },
   {
-    title: 'Положение о Ресурсном центре поддержки НКО',
-    link: '/documents/polozhenie-nko.pdf'
+    title: 'Приказ об утверждении муниципального задания на 2024-2026 годы',
+    link: 'https://uray.ru/wp-content/uploads/2023/05/prikaz_ob_utverzhdenii_municipalnogo_zadanija_na_2024-2026_gody.pdf'
   },
   {
-    title: 'Положение о Ресурсном центре поддержки волонтёрства',
-    link: '/documents/polozhenie-volunteer.pdf'
+    title: 'Приказ об утверждении нормативных затрат на 2023-2025 годы',
+    link: 'https://uray.ru/wp-content/uploads/2023/05/prikaz-ot-20.01.2023-pr2-1.pdf'
   },
-  {
-    title: 'Годовой отчет за 2024 год',
-    link: '/documents/report-2024.pdf'
-  }
 ]);
 
 
